@@ -1,6 +1,46 @@
 <%@val s: skinny.Skinny %>
-<h3>Hello World!</h3>
-<hr/>
-<p>
-Your first Skinny app works!
-</p>
+<% import _root_.lib.{ViewHelper => h} %>
+
+<% val options = Map("value1" -> "this is the first", "value2" -> "this is second option", "value3" -> "this is third option"); %>
+<% val multiLineText = """
+    |first
+    |second
+    |third""".stripMargin %>
+
+<div class="form-group">
+  <div class="controls row">
+    <div>
+      <div class="col-xs-12">
+        ${unescape(h.text("name", "foo", "class='form-control'"))}
+      </div>
+    </div>
+  </div>
+  <div class="controls row">
+    <div>
+      <div class="col-xs-12">
+        ${unescape(h.password("name", "******", "class='form-control'"))}
+      </div>
+    </div>
+  </div>
+  <div class="controls row">
+    <div>
+      <div class="col-xs-12">
+        <select name="option">
+          ${unescape(h.options(options, "value2"))}
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="controls row">
+    <div>
+      <div class="col-xs-12">
+        ${unescape(h.textarea("textarea", multiLineText, "cols='130' rows='10'"))}
+      </div>
+    </div>
+  </div>
+  <div class="controls row">
+    <div class="col-xs-12">
+      ${unescape(h.newlineToBr(multiLineText))}
+    </div>
+  </div>
+</div>
