@@ -26,4 +26,18 @@ class ViewHelperSpec extends ScalatraFlatSpec with SkinnyTestSupport {
     ViewHelper.options(Map("<" -> ">"), "") should be("""<option value="&lt;">&gt;</option>""".stripMargin)
   }
 
+  it should "input type=text" in {
+    ViewHelper.text("<foo", "<bar", "class='class1'") should be("""<input type="text" name="&lt;foo" value="&lt;bar" class='class1' />""")
+  }
+
+  it should "input type=password" in {
+    ViewHelper.password("<foo", "<bar", "class='class1'") should be("""<input type="password" name="&lt;foo" value="&lt;bar" class='class1' />""")
+  }
+
+  it should "textarea" in {
+    val value = """foo
+              |bar""".stripMargin
+    ViewHelper.textarea("<foo", value, "class='foo'", "placeholder='bar'") should be(s"""<textarea name="&lt;foo" class='foo' placeholder='bar'>$value</textarea>""".stripMargin)
+  }
+
 }
