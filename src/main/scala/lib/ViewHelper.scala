@@ -20,6 +20,22 @@ object ViewHelper {
       ).reduceLeftOption{ _ + "\n" + _ }.getOrElse("")
   }
 
+  def radios(name: String, data: Map[String, String], selected: String, attr: String*) : String = {
+    /**
+     * under consideration.
+     */
+    (for { (k, v) <- data} yield "<label>" + radio(name, k, k == selected, attributeString(attr))  + v + "</label>"
+    ).reduceLeftOption { _ + "\n" + _ }.getOrElse("")
+  }
+
+  def checkboxes(name: String, data: Map[String, String], selected: Set[String], attr: String*) : String = {
+    /**
+     * under consideration.
+     */
+    (for { (k, v) <- data} yield "<label>" + checkbox(name, k, selected.contains(k), attributeString(attr)) + v + "</label>"
+    ).reduceLeftOption { _ + "\n" + _ }.getOrElse("")
+  }
+
   def input(typ: String, name: String, value: String, attr: Seq[String]) : String = {
     s"""<input type="${s(typ)}" name="${s(name)}" value="${s(value)}"${attributeString(attr)} />"""
   }
@@ -30,6 +46,14 @@ object ViewHelper {
 
   def password(name:String, value: String, attr: String*) : String = {
     input("password", name, value, attr)
+  }
+
+  def radio(name: String, value: String, checked: Boolean, attr: String*) : String = {
+    s"""<input type="radio" name="${s(name)}" value="${s(value)}"${if(checked) """ checked="checked"""" else ""}${attributeString(attr)} />"""
+  }
+
+  def checkbox(name: String, value: String, checked: Boolean, attr: String*) : String = {
+    s"""<input type="checkbox" name="${s(name)}" value="${s(value)}"${if(checked) """ checked="checked"""" else ""}${attributeString(attr)} />"""
   }
 
   def textarea(name:String, value: String, attr: String*) : String = {
