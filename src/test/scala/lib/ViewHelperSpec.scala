@@ -39,5 +39,16 @@ class ViewHelperSpec extends ScalatraFlatSpec with SkinnyTestSupport {
               |bar""".stripMargin
     ViewHelper.textarea("<foo", value, "class='foo'", "placeholder='bar'") should be(s"""<textarea name="&lt;foo" class='foo' placeholder='bar'>$value</textarea>""".stripMargin)
   }
+  
+  
+  it should "checkbox" in {
+    Checkbox("foo", "value1").toString should be("""<input type="checkbox" name="foo" value="value1" />""")
+    Checkbox("foo", "value2", true).toString should be("<input type=\"checkbox\" name=\"foo\" value=\"value2\" checked=\"checked\" />")
+  }
+  
+  it should "radio" in {
+    Radio("foo", "value1").toString should be("""<input type="radio" name="foo" value="value1" />""")
+    Radio("foo", "value2", true).toString should be("<input type=\"radio\" name=\"foo\" value=\"value2\" checked=\"checked\" />")
+  }
 
 }
