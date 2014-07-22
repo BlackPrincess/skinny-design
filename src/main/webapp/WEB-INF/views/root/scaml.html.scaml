@@ -1,4 +1,4 @@
-- import _root_.lib.{ViewHelper => h}
+- import _root_.lib._
 
 -@ val options:Map[String,String] = Map("value1" -> "this is the first", "value2" -> "this is second option", "value3" -> "this is third option")
 -@ val multiLineText :String = "first\rsecond\nthird".stripMargin
@@ -8,42 +8,42 @@
   %div.controls.row
     %div
       %div.col-xs-12
-        !=h.text("name", "foo", "class='form-control'")
-        %pre =h.text("name", "foo", "class='form-control'")
+        !=Text("name", "foo", 'class -> "form-control")
+        %pre =Text("name", "foo", 'class -> "form-control")
 %div.form-group
   %div.controls.row
     %div
       %div.col-xs-12
-        !=h.password("name", "******", "class='form-control'")
-        %pre =h.password("name", "******", "class='form-control'")
+        !=Password("name", "******", 'class -> "form-control")
+        %pre =Password("name", "******", 'class -> "form-control")
 %div.form-group
   %div.controls.row
     %div
       %div.col-xs-12
         %select{:name => "option"}
-          !=h.options(options, "value2")
-        %pre =h.options(options, "value2")
+          !=SelectOptions(options, "value2")
+        %pre =SelectOptions(options, "value2")
 %div.form-group
   %div.controls.row
     %div
       %div.col-xs-12
-        !=h.textarea("textarea", multiLineText, "cols='130' rows='10'")
-        %pre =h.textarea("textarea", multiLineText, "cols='130' rows='10'")
+        !=TextArea("textarea", multiLineText, 'cols -> "130", 'rows -> "10")
+        %pre =TextArea("textarea", multiLineText, 'cols -> "130", 'rows -> "10")
 %div.form-group
   %div.controls.row
     %div
       %div.col-xs-12
-        !=h.newlineToBr(multiLineText)
-        %pre =h.newlineToBr(multiLineText)
+        !=MultiLineText(multiLineText)
+        %pre =MultiLineText(multiLineText)
 %div.form-group
   %div.controls.row
     %div
       %div.col-xs-12
-        !=h.radios("foo", options, "value2")
-        %pre =h.radios("foo", options, "value2")
+        !=Radios("foo", options, "value2")
+        %pre =Radios("foo", options, "value2")
 %div.form-group
   %div.controls.row
     %div
       %div.col-xs-12
-        !=h.checkboxes("foo", options, Set("value2", "value3"))
-        %pre =h.checkboxes("foo", options, Set("value2", "value3"))
+        !=Checkboxes("foo", options, Set("value2", "value3"))
+        %pre =Checkboxes("foo", options, Set("value2", "value3"))

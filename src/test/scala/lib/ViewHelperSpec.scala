@@ -5,10 +5,10 @@ import skinny.test.SkinnyTestSupport
 
 class ViewHelperSpec extends ScalatraFlatSpec with SkinnyTestSupport {
   it should "line-break to <br>" in {
-    ViewHelper.newlineToBr(
+    MultiLineText(
       """one
         |two
-        |three""".stripMargin) should be("one<br>two<br>three")
+        |three""".stripMargin).toString should be("one<br>two<br>three")
   }
 
   it should "put option tags" in {
@@ -27,17 +27,18 @@ class ViewHelperSpec extends ScalatraFlatSpec with SkinnyTestSupport {
   }
 
   it should "input type=text" in {
-    ViewHelper.text("<foo", "<bar", "class='class1'") should be("""<input type="text" name="&lt;foo" value="&lt;bar" class='class1' />""")
+    Text("<foo", "<bar", 'class -> "class1").toString should be("""<input type="text" name="&lt;foo" value="&lt;bar" class="class1" />""")
   }
 
   it should "input type=password" in {
-    ViewHelper.password("<foo", "<bar", "class='class1'") should be("""<input type="password" name="&lt;foo" value="&lt;bar" class='class1' />""")
+    Password("<foo", "<bar", 'class -> "class1").toString should be("""<input type="password" name="&lt;foo" value="&lt;bar" class="class1" />""")
   }
 
   it should "textarea" in {
     val value = """foo
               |bar""".stripMargin
-    ViewHelper.textarea("<foo", value, "class='foo'", "placeholder='bar'") should be(s"""<textarea name="&lt;foo" class='foo' placeholder='bar'>$value</textarea>""".stripMargin)
+    TextArea("<foo", value, 'class -> "foo", 'placeholder -> "bar").toString should 
+      be(s"""<textarea name="&lt;foo" class="foo" placeholder="bar">$value</textarea>""".stripMargin)
   }
   
   
@@ -50,5 +51,4 @@ class ViewHelperSpec extends ScalatraFlatSpec with SkinnyTestSupport {
     Radio("foo", "value1").toString should be("""<input type="radio" name="foo" value="value1" />""")
     Radio("foo", "value2", true).toString should be("<input type=\"radio\" name=\"foo\" value=\"value2\" checked=\"checked\" />")
   }
-
 }

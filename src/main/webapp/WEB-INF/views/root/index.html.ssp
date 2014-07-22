@@ -1,5 +1,5 @@
 <%@val s: skinny.Skinny %>
-<% import _root_.lib.{ViewHelper => h} %>
+<% import _root_.lib._ %>
 
 <% val options = Map("value1" -> "this is the first", "value2" -> "this is second option", "value3" -> "this is third option"); %>
 <% val multiLineText = """
@@ -11,16 +11,16 @@
   <div class="controls row">
     <div>
       <div class="col-xs-12">
-        ${unescape(h.text("name", "foo", "class='form-control'"))}
-        <pre>${h.text("name", "foo", "class='form-control'")}</pre>
+        ${unescape(Text("name", "foo", 'class -> "form-control"))}
+        <pre>${Text("name", "foo", 'class -> "form-control")}</pre>
       </div>
     </div>
   </div>
   <div class="controls row">
     <div>
       <div class="col-xs-12">
-        ${unescape(h.password("name", "******", "class='form-control'"))}
-        <pre>${h.password("name", "******", "class='form-control'")}</pre>
+        ${unescape(Password("name", "******", 'class -> "form-control"))}
+        <pre>${Password("name", "******", 'class -> "form-control")}</pre>
       </div>
     </div>
   </div>
@@ -28,36 +28,36 @@
     <div>
       <div class="col-xs-12">
         <select name="option">
-          ${unescape(h.options(options, "value2"))}
+          ${unescape(SelectOptions(options, "value2"))}
         </select>
-        <pre>${h.options(options, "value2")}</pre>
+        <pre>${SelectOptions(options, "value2")}</pre>
       </div>
     </div>
   </div>
   <div class="controls row">
     <div>
       <div class="col-xs-12">
-        ${unescape(h.textarea("textarea", multiLineText, "cols='130' rows='10'"))}
-        <pre>${h.textarea("textarea", multiLineText, "cols='130' rows='10'")}</pre>
+        ${unescape(TextArea("textarea", multiLineText, 'cols -> "130", 'rows -> "10"))}
+        <pre>${TextArea("textarea", multiLineText, 'cols -> "130", 'rows -> "10")}</pre>
       </div>
     </div>
   </div>
   <div class="controls row">
     <div class="col-xs-12">
-      ${unescape(h.newlineToBr(multiLineText))}
-      <pre>${h.newlineToBr(multiLineText)}</pre>
+      ${unescape(MultiLineText(multiLineText))}
+      <pre>${MultiLineText(multiLineText)}</pre>
     </div>
   </div>
   <div class="controls row">
     <div class="col-xs-12">
-      ${unescape(h.radios("foo", options, "value2"))}
-      <pre>${h.radios("foo", options, "value2")}</pre>
+      ${unescape(Radios("foo", options, "value2"))}
+      <pre>${Radios("foo", options, "value2")}</pre>
     </div>
   </div>
   <div class="controls row">
-      <div class="col-xs-12">
-        ${unescape(h.checkboxes("foo", options, Set("value2", "value3")))}
-        <pre><%=h.checkboxes("foo", options, Set("value2", "value3"))%></pre>
-      </div>
+    <div class="col-xs-12">
+      ${unescape(Checkboxes("foo", options, Set("value2", "value3")))}
+      <pre><%=Checkboxes("foo", options, Set("value2", "value3"))%></pre>
     </div>
+  </div>
 </div>
