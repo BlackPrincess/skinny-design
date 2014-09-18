@@ -3,37 +3,6 @@ package lib
 import org.fusesource.scalate.support.RenderHelper
 // import scala.language.experimental.macros
 
-/**
- * note: this code is under consideration.
- * 
- */
-trait ViewHelper { self =>
-  
-  // TODO:
-  def options(data: Map[String, String], selected: String, attr: (Symbol, String)*) : String = 
-    (for { (k, v) <- data } yield SelectOption(v, k, selected, attr.toMap).toString).reduceLeftOption{ _ + "\n" + _ }.getOrElse("")
-
-  // TODO:
-  def radios(name: String, data: Map[String, String], selected: String, attr: (Symbol, String)*) : String = {
-    /**
-     * under consideration.
-     */
-    (for { (k, v) <- data} yield "<label>" + Radio(name, k, selected, attr.toMap)  + v + "</label>"
-    ).reduceLeftOption { _ + "\n" + _ }.getOrElse("")
-  }
-
-  // TODO:
-  def checkboxes(name: String, data: Map[String, String], selected: Set[String], attr: (Symbol, String)*) : String = {
-    /**
-     * under consideration.
-     */
-    (for { (k, v) <- data} yield "<label>" + Checkbox(name, k, selected, attr.toMap) + v + "</label>"
-    ).reduceLeftOption { _ + "\n" + _ }.getOrElse("")
-  }
-}
-
-object ViewHelper extends ViewHelper
-
 trait HtmlHelper {
   /**
    * returns sanitized value.
@@ -177,8 +146,8 @@ object SelectOption extends TagCompanion {
  Multi
 */
 
-class Checkboxes(name: String, data: Map[String, String], selected: Set[String], attr: String) {
-  override def toString : String = (for { (k, v) <- data} yield "<label>" + Checkbox(name, k, selected, attr) + v + "</label>").reduceLeftOption { _ + "\n" + _ }.getOrElse("")
+class Checkboxes(name: String, data: Map[String, String], selected: Set[String], attr: String,f:(String, String, String) => String = {(k:String,v:String,tag:String) => { s"""<label>${tag}${v}</label>"""}}) extends FormTag {
+  override def toString : String = (for { (k, v) <- data} yield f(s(k),s(v),Checkbox(name, k, selected, attr).toString)).reduceLeftOption { _ + "\n" + _ }.getOrElse("")
 }
 
 object Checkboxes extends TagCompanion {
@@ -190,8 +159,8 @@ object Checkboxes extends TagCompanion {
   def apply(name: String, data: Map[String, String], selected: Set[String], attr: Map[Symbol, String]) = new Checkboxes(name, data, selected, attributeString(attr))
 }
 
-class Radios(name: String, data: Map[String, String], selected: String, attr: String) {
-  override def toString : String = (for { (k, v) <- data} yield "<label>" + Radio(name, k, selected, attr)  + v + "</label>").reduceLeftOption { _ + "\n" + _ }.getOrElse("")
+class Radios(name: String, data: Map[String, String], selected: String, attr: String, f:(String, String, String) => String = {(k:String,v:String,tag:String) => { s"""<label>${tag}${v}</label>"""}}) extends FormTag {
+  override def toString : String = (for { (k, v) <- data} yield f(s(k),s(v), Radio(name, k, selected, attr).toString)).reduceLeftOption { _ + "\n" + _ }.getOrElse("")
 }
 
 object Radios extends TagCompanion {
@@ -203,7 +172,7 @@ object Radios extends TagCompanion {
   def apply(name: String, data: Map[String, String], selected: String, attr: Map[Symbol, String]) = new Radios(name, data, selected, attributeString(attr))
 }
 
-class SelectOptions(data: Map[String, String], selected: String, attr: String) {
+class SelectOptions(data: Map[String, String], selected: String, attr: String) extends FormTag {
   override def toString : String = (for { (k, v) <- data } yield SelectOption(v, k, selected, attr).toString).reduceLeftOption{ _ + "\n" + _ }.getOrElse("")
 }
 
